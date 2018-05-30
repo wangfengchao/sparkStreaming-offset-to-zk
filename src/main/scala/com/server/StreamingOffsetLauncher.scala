@@ -54,10 +54,10 @@ object StreamingOffsetLauncher {
     conf.set("spark.streaming.backpressure.initialRate", "5000") // 启动反压功能后，读取的最大数据量
     conf.set("spark.streaming.kafka.maxRatePerPartition", "2000") // 设置每秒每个分区最大获取日志数，控制处理数据量，保证数据均匀处理。
 
-    var kafkaParams = Map[String, String]("bootstrap.servers" -> "10.108.4.203:9092,10.108.4.204:9092,10.108.4.205:9092") // 创建一个kafkaParams
+    var kafkaParams = Map[String, String]("bootstrap.servers" -> CommonUtils.kafkaServers) // 创建一个kafkaParams
     if (CommonUtils.firstReadLastest) kafkaParams += ("auto.offset.reset" -> OffsetRequest.LargestTimeString) // 从最新的开始消费
     // 创建zkClient注意最后一个参数最好是ZKStringSerializer类型的，不然写进去zk里面的偏移量是乱码
-    val zkClient = new ZkClient("10.108.4.203:2181,10.108.4.204:2181,10.108.4.205:2181", 30000, 30000, ZKStringSerializer)
+    val zkClient = new ZkClient(CommonUtils.zkServer, 30000, 30000, ZKStringSerializer)
     val zkOffsetPath = CommonUtils.zkOffsetPath
     val topicsSet = CommonUtils.topicSet
 

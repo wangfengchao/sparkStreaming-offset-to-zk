@@ -114,9 +114,6 @@
     <!-- <testSourceDirectory>src/test/scala</testSourceDirectory> -->
     <resources>
       <resource>
-        <directory>${basedir}/src/main/resources</directory>
-      </resource>
-      <resource>
         <filtering>true</filtering>
         <directory>${basedir}/src/main/resources/${env}</directory>
         <includes>
