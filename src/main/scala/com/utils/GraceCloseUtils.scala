@@ -24,7 +24,7 @@ object GraceCloseUtils {
     * @param port 对外暴露的端口号
     * @param ssc Stream上下文
     */
-  def daemonHttpServer(port:Int,ssc: StreamingContext) = {
+  def daemonHttpServer(port:Int, ssc: StreamingContext) = {
     val server = new Server(port)
     val context = new ContextHandler()
     context.setContextPath("/close")

@@ -19,7 +19,7 @@ import org.apache.spark.streaming.{Seconds, StreamingContext}
   */
 object StreamingOffsetLauncher {
 
-  lazy val log = LogManager.getLogger("StreamingOffsetLauncher")
+  lazy val log = LogManager.getLogger(StreamingOffsetLauncher.getClass)
 
   /**
     * 程序入口
@@ -31,12 +31,23 @@ object StreamingOffsetLauncher {
     ssc.start()
 
     // 方式一： 通过Http方式优雅的关闭策略
-    GraceCloseUtils.daemonHttpServer(5555,ssc)
+    GraceCloseUtils.daemonHttpServer(8012,ssc)
     // 方式二： 通过扫描HDFS文件来优雅的关闭
     // GraceCloseUtils.stopByMarkFile(ssc)
-
     //等待任务终止
     ssc.awaitTermination()
+
+      // 系统提供的优雅关闭
+//    sys.ShutdownHookThread
+//    {
+//      ssc.stop(true, true)
+//    }
+//    Runtime.getRuntime().addShutdownHook(new Thread() {
+//      override def run() {
+//        ssc.stop(true, true)
+//      }
+//    })
+
   }
 
   /**
@@ -45,7 +56,7 @@ object StreamingOffsetLauncher {
     */
   def functionToCreateContext(): StreamingContext = {
     val conf = new SparkConf().setAppName("streaming_offset_to_zk_app")
-    if (CommonUtils.isLocal) conf.setMaster("local[1]") // local模式
+//    if (CommonUtils.isLocal) conf.setMaster("local[1]") // local模式
 
     /* 启动优雅关闭服务 */
     conf.set("spark.streaming.stopGracefullyOnShutdown", "true")
@@ -73,6 +84,7 @@ object StreamingOffsetLauncher {
           //如果没有使用广播变量，连接资源就在这个地方初始化
           //比如数据库连接，hbase，elasticsearch，solr，等等
           partitions.foreach(msg => {
+            log.warn("数据读取成功。。。")
             log.info("读取的数据：" + msg)
           })
         })

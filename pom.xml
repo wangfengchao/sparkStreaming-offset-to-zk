@@ -11,15 +11,15 @@
       <properties>
         <env>conf/dev</env>
       </properties>
-      <activation>
-        <activeByDefault>true</activeByDefault>
-      </activation>
     </profile>
     <profile>
       <id>test</id>
       <properties>
         <env>conf/test</env>
       </properties>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
     </profile>
     <profile>
       <id>prod</id>
@@ -37,6 +37,7 @@
     <kafka.version>0.10.2.1</kafka.version>
     <config.version>1.2.1</config.version>
     <zkclient.version>0.10</zkclient.version>
+    <guava.version>18.0</guava.version>
   </properties>
 
   <repositories>
@@ -101,6 +102,11 @@
       <groupId>log4j</groupId>
       <artifactId>log4j</artifactId>
       <version>1.2.17</version>
+    </dependency>
+    <dependency>
+      <groupId>com.google.guava</groupId>
+      <artifactId>guava</artifactId>
+      <version>${guava.version}</version>
     </dependency>
     <dependency>
       <groupId>com.typesafe</groupId>

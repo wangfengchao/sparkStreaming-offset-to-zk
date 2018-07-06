@@ -13,7 +13,7 @@ import org.apache.spark.streaming.kafka.HasOffsetRanges
   */
 object KafkaOffsetManager {
 
-  lazy val log = LogManager.getLogger("KafkaOffsetManager")
+  lazy val log = LogManager.getLogger(KafkaOffsetManager.getClass)
 
   /**
     * 读取zk里面的偏移量，如果有就返回对应的分区和偏移量
